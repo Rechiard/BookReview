@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>第一个 ECharts 实例</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <script src="https://cdn.staticfile.org/echarts/4.3.0/echarts.min.js"></script>
+</head>
+
+<body>
+<!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+<div id="main" style="width: 600px;height:400px;margin: 0 auto"></div>
+
+<script type="text/javascript">
+    var myChart = echarts.init(document.getElementById('main'));
+
+    var option;
+
+    option = {
+        title: {
+            text: '书籍分类',
+            subtext: '',
+            left: 'center'
+        },
+        tooltip: {
+            trigger: 'item'
+        },
+        legend: {
+            orient: 'vertical',
+            left: 'left',
+        },
+        series: [
+            {
+                name: '访问来源',
+                type: 'pie',
+                radius: '50%',
+                data: [
+                    {value:3451, name:'文学'},
+                    {value:1652, name:'流行'},
+                    {value:417, name:'生活'},
+                    {value:163, name:'科技'},
+                    {value:185, name:'经管'}
+                ],
+                /*
+                select count(book_sort) from book_info where book_sort= '文学'
+select count(book_sort) from book_info where book_sort= '流行'
+select count(book_sort) from book_info where book_sort= '生活'
+select count(book_sort) from book_info where book_sort= '科技'
+select count(book_sort) from book_info where book_sort= '经管'
+                 */
+                emphasis: {
+                    itemStyle: {
+                        shadowBlur: 10,
+                        shadowOffsetX: 0,
+                        shadowColor: 'rgba(0, 0, 0, 0.5)'
+                    }
+                }
+            }
+        ]
+    };
+
+    option && myChart.setOption(option);
+</script>
+</body>
+</html>

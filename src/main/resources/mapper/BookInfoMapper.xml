@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjnu.system.mapper.BookInfoMapper">
+
+    <select id="countByTable" resultType="java.lang.Integer">
+        select count(A.id) from book_info A where A.status = 1
+    </select>
+
+    <select id="listByTable" resultType="com.tjnu.system.entity.BookInfo">
+        select <include refid="BookInfoVo"/>
+        from book_info A
+        where A.status = 1
+        limit #{entity.offset}, #{entity.limit}
+    </select>
+
+    <sql id="BookInfoVo">
+        A.id,
+        A.book_name,
+        A.author,
+        A.publishing_house,
+        A.translator,
+        A.publish_date,
+        A.pages,
+        A.ISBN,
+        A.price,
+        A.brief_introduction,
+        A.author_introduction,
+        A.book_score,
+        A.book_sort,
+        A.rating_sum,
+        A.img_url
+    </sql>
+
+    <select id="listByType" resultType="com.tjnu.system.entity.BookInfo">
+        select <include refid="BookInfoVo"/>
+        from book_info A
+        where A.status = 1 and A.book_sort = #{entity.bookSort}
+        limit #{entity.offset}, #{entity.limit}
+    </select>
+
+    <select id="listByTableImg3" resultType="com.tjnu.system.entity.BookInfo">
+        select <include refid="BookInfoVo"/>
+        from book_info A
+        where A.status = 1 and A.img_url like '%img3%'
+        limit #{entity.offset}, #{entity.limit}
+    </select>
+
+    <select id="listByLikeImg3" resultType="com.tjnu.system.entity.BookInfo">
+        select <include refid="BookInfoVo"/>
+        from book_info A
+        where A.status = 1 and A.img_url like '%img3%' and A.book_sort = #{entity.bookSort}
+        limit #{entity.offset}, #{entity.limit}
+    </select>
+
+    <select id="listBy2000" resultType="com.tjnu.system.entity.BookInfo">
+        select <include refid="BookInfoVo"/>
+        from book_info A
+        where A.status = 1 and A.publish_date like '2000%'
+        order by A.publish_date
+        limit #{entity.offset}, #{entity.limit}
+    </select>
+
+    <select id="listByRatingSum" resultType="com.tjnu.system.entity.BookInfo">
+        select <include refid="BookInfoVo"/>
+        from book_info A
+        where A.status = 1
+        order by A.rating_sum desc
+        limit #{entity.offset}, #{entity.limit}
+    </select>
+
+</mapper>

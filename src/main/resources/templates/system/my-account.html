@@ -1,0 +1,388 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title></title>
+    <meta name="robots" content="noindex, follow" />
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" th:href="@{/assets/images/favicon.ico}">
+    <link rel="stylesheet" th:href="@{/assets/css/vendor/vendor.min.css}">
+    <link rel="stylesheet" th:href="@{/assets/css/plugins/plugins.min.css}">
+    <link rel="stylesheet" th:href="@{/assets/css/style.min.css}">
+
+    <link rel="stylesheet" th:href="@{/layuimini/lib/layui-v2.5.5/css/layui.css}" media="all">
+    <link rel="stylesheet" th:href="@{/layuimini/css/public.css}" media="all">
+    <link rel="stylesheet" th:href="@{/layuimini/js/lay-module/dtree/dtree.css}">
+    <link rel="stylesheet" th:href="@{/layuimini/js/lay-module/dtree/font/dtreefont.css}">
+
+</head>
+
+<body>
+
+
+<div th:replace="system/common/commons.html::top3bar"></div>
+
+<!--=====================
+Breadcrumb Aera Start
+=========================-->
+<div class="breadcrumbs_area">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="breadcrumb_content">
+                    <ul>
+                        <li>
+                            <h1><a th:href="@{/toIndex}">首页</a></h1>
+                        </li>
+                        <li>个人中心</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--=====================
+Breadcrumb Aera End
+=========================-->
+
+
+<div class="my-account-area mt-50">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-sm-12 col-md-12 col-lg-2">
+                <ul class="nav flex-column dashboard-list mb-20 role=" tablist>
+                <li><a class="nav-link active show" data-toggle="tab" href="#dashboard">个人中心</a></li>
+                <li><a class="nav-link" data-toggle="tab" href="#account-details">信息详情</a></li>
+                <li> <a class="nav-link" data-toggle="tab" href="#orders">个人收藏</a></li>
+                <li><a class="nav-link" data-toggle="tab" href="#change-password">修改密码</a></li>
+                <li><a class="nav-link" th:href="@{/logout}">退出登录</a></li>
+                </ul>
+            </div>
+            <div class="col-12 col-sm-12 col-md-12 col-lg-10">
+                <!-- Tab panes -->
+                <div class="tab-content dashboard-content mb-20">
+                    <div id="dashboard" class="tab-pane fade active show">
+                        <h3 class="last-title">个人中心 </h3>
+                        <p>欢迎您</p>
+                        <p><span>[[${userInfo.getNickName()}]]</span>用户。您可以轻松地查看您最近的收藏书籍，管理您的收藏书籍，并编辑您的密码和帐户详细信息。</p>
+                        <p>这是您的个人中心页面，在这里您可以看到您的一些内容和信息，方便你修改和编辑个人信息</p>
+                    </div> <!-- end of tab-pane -->
+                    <div id="account-details" class="tab-pane fade">
+                        <h3 class="last-title">编辑您的个人信息 </h3>
+                        <div class="checkout_info">
+
+                            <form class="form-row layui-form" action="#">
+                                <input name="id" hidden th:value="${userInfo.getId()}">
+                                <div class="form_group col-12 col-lg-6">
+                                    <label class="form-label">账号 <span>*</span></label>
+                                    <input class="input-form" name="username" readonly unselectable="on" type="text" th:value="${userInfo.getUsername()}">
+                                </div>
+                                <div class="form_group col-12 col-lg-6">
+                                    <label class="form-label">用户名 <span>*</span></label>
+                                    <input class="input-form" name="nickName" type="text" th:value="${userInfo.getNickName()}">
+                                </div>
+                                <div class="form_group col-12">
+                                    <label class="form-label">邮箱 <span>*</span></label>
+                                    <input class="input-form" name="email" type="text" th:value="${userInfo.getEmail()}">
+                                </div>
+                                <div class="form_group col-12">
+                                    <label class="form-label">电话 <span>*</span></label>
+                                    <input class="input-form" name="phone" type="text" th:value="${userInfo.getPhone()}">
+                                </div>
+                                <div class="form_group col-12">
+                                    <label class="form-label">个人简介 <span>*</span></label>
+                                    <input class="input-form" name="description" type="text" th:value="${userInfo.getDescription()}">
+                                </div>
+                                <div class="form-row mt-20" style="width:100%">
+                                    <input type="submit" class="btn-secondary" value="保存" style="margin-left:13px;width:100%" lay-submit lay-filter="userInfoSubmit">
+                                </div>
+                            </form>
+
+                        </div>
+                    </div> <!-- end of tab-pane -->
+
+                    <div id="orders" class="tab-pane fade">
+                        <h3 class="last-title">个人收藏</h3>
+                        <div class="table-responsive">
+                            <table class="layui-hide" id="currentTableId" lay-filter="currentTableFilter"></table>
+
+                            <script type="text/html" id="currentTableBar">
+                                <a style="color:white;" class="layui-btn layui-btn-xs" lay-event="detail">详情</a>
+                                <a style="color:white;" class="layui-btn layui-btn-xs layui-btn-danger data-count-delete" lay-event="del">取消收藏</a>
+                            </script>
+
+                        </div>
+
+                    </div> <!-- end of tab-pane -->
+
+
+                    <div id="change-password" class="tab-pane">
+                        <h3 class="last-title">修改密码 </h3>
+                        <div class="checkout_info">
+
+                            <form class="form-row  layui-form" action="#">
+                                <input name="id" hidden th:value="${userInfo.getId()}">
+                                <div class="form_group col-12">
+                                    <label class="form-label">旧密码 <span>*</span></label>
+                                    <input class="input-form" name="password" type="password" required="required">
+                                </div>
+                                <div class="form_group col-12">
+                                    <label class="form-label">新密码 <span>*</span></label>
+                                    <input class="input-form" name="newPassword1" type="password" required="required">
+                                </div>
+                                <div class="form_group col-12">
+                                    <label class="form-label">再次输入新密码 <span>*</span></label>
+                                    <input class="input-form" name="newPassword2" type="password" required="required">
+                                </div>
+                                <div class="form-row mt-20" style="width:100%">
+                                    <input type="submit" class="btn-secondary" value="提交" style="margin-left:13px;width:100%" lay-submit lay-filter="PwdSubmit">
+                                </div>
+                            </form>
+
+                        </div> <!-- end of tab-pane -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--======================
+    My Account area End
+    ==========================-->
+</div>
+
+
+<div id="detailFormModal" style="display: none;padding: 10px">
+    <form class="layui-form" id="detailForm" lay-filter="detailFormFilter">
+        <div class="layui-form-item">
+            <label class="layui-form-label">书名</label>
+            <div class="layui-input-block">
+                <input type="text" name="bookName" readonly class="layui-input layui-input-view" style="border: none">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">作者</label>
+            <div class="layui-input-block">
+                <input type="text" name="author" readonly class="layui-input layui-input-view" style="border: none">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">出版社</label>
+            <div class="layui-input-block">
+                <input type="text" name="publishingHouse" readonly class="layui-input layui-input-view" style="border: none">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">译者</label>
+            <div class="layui-input-block">
+                <input type="text" name="translator" readonly class="layui-input layui-input-view" style="border: none">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">出版时间</label>
+            <div class="layui-input-block">
+                <input type="text" name="publishDate" readonly class="layui-input layui-input-view" style="border: none">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">页数</label>
+            <div class="layui-input-block">
+                <input type="text" name="pages" readonly class="layui-input layui-input-view" style="border: none">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">书籍分类</label>
+            <div class="layui-input-block">
+                <input type="text" name="bookSort" readonly class="layui-input layui-input-view" style="border: none">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">评分</label>
+            <div class="layui-input-block">
+                <input type="text" name="bookScore" readonly class="layui-input layui-input-view" style="border: none">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">评分人数</label>
+            <div class="layui-input-block">
+                <input type="text" name="ratingSum" readonly class="layui-input layui-input-view" style="border: none">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">价格</label>
+            <div class="layui-input-block">
+                <input type="text" name="price" readonly class="layui-input layui-input-view" style="border: none">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">ISBN号码</label>
+            <div class="layui-input-block">
+                <input type="text" name="isbn" readonly class="layui-input layui-input-view" style="border: none">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">封面</label>
+            <div class="layui-input-block">
+                <img id="imgUrl" name="imgUrl" src="imgUrl">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button type="button" class="layui-btn layui-btn-primary" id="detailFormReset">关闭</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div th:replace="system/common/commons.html::lastbar"></div>
+
+
+<script th:src="@{/assets/js/vendor/vendor.min.js}"></script>
+<script th:src="@{/assets/js/plugins/plugins.min.js}"></script>
+<script th:src="@{/assets/js/main.js}"></script>
+<script th:src="@{/layuimini/js/lay-module/xm-select/xm-select.js}"></script>
+<script th:src="@{/layuimini/lib/layui-v2.5.5/layui.js}" charset="utf-8"></script>
+<script th:src="@{/layuimini/js/lay-config.js?v=2.0.0}" charset="utf-8"></script>
+
+<script>
+    layui.use(['form','table'], function () {
+        var $ = layui.jquery,
+            form = layui.form,
+            table = layui.table;
+
+        /*
+            修改密码
+        */
+        form.on('submit(PwdSubmit)', function (data) {
+            if(data.field.newPassword2 != data.field.newPassword1){
+                layer.msg('两次密码不一致', {time: 2000, icon: 2});
+                return false;
+            };
+
+            $.ajax({
+                type: 'post',
+                url: '/system/userInfo/updatePwd',
+                dataType: 'json',
+                data: data.field,
+                success: function (res) {
+                    if (res.code == 200) {
+                        layer.msg(res.msg, {time: 2000, icon: 1}, function () {
+                            window.location.href = '/toLogin';
+                        });
+                    } else {
+                        layer.msg(res.msg, {time: 2000, icon: 2});
+                    }
+                },
+                error: function (res) {
+                    layer.msg("请求失败", {time: 2000, icon: 2});
+                }
+            });
+            return false;
+        });
+
+        /*
+            编辑个人信息
+         */
+        form.on('submit(userInfoSubmit)', function (data) {
+            $.ajax({
+                type: 'post',
+                url: '/system/userInfo/update',
+                dataType: 'json',
+                data: data.field,
+                success: function (res) {
+                    if (res.code == 200) {
+                        layer.msg(res.msg, {time: 2000, icon: 1}, function () {
+                            window.location.reload();
+                        });
+                    } else {
+                        layer.msg(res.msg, {time: 2000, icon: 2});
+                    }
+                },
+                error: function (res) {
+                    layer.msg("请求失败", {time: 2000, icon: 2});
+                }
+            });
+            return false;
+        });
+
+        /*
+            个人收藏
+         */
+        table.render({
+            elem: '#currentTableId',
+            method: 'post',
+            url: '/system/collectInfo/listByUserId',
+            defaultToolbar: ['filter', 'exports', 'print'],
+            cols: [ [
+                {type: 'numbers',title: '序号'},
+                {field: 'bookName', width: 170, title: '书名'},
+                {field: 'author', width: 100, title: '作者'},
+                {field: 'bookSort', title: '书籍分类'},
+                {field: 'publishingHouse', title: '出版社',width: 150},
+                {field: 'publishDate', title: '出版时间',width: 150},
+                {title: '操作', width: 150,align:"center", toolbar: '#currentTableBar', align: "center"}
+            ]],
+            limits: [5, 10, 15],
+            limit: 10,
+            page: true,
+        });
+
+        // 监听 detail表单 关闭
+        $('#detailFormReset').on('click', function () {
+            $('#detailForm')[0].reset();
+            layer.closeAll();
+        });
+
+        /*
+            个人收藏按钮监听
+         */
+        table.on('tool(currentTableFilter)',function (obj) {
+            let data = obj.data;
+            let imgUrl = obj.data.imgUrl;
+            if(obj.event === 'del'){
+                layer.confirm('确定删除收藏嘛?',function (index) {
+                    $.ajax({
+                        type: 'post',
+                        url: '/system/collectInfo/deleteByCollectId',
+                        data: {id: data.id},
+                        dataType: 'json',
+                        success: function (res) {
+                            if (res.code == 200) {
+                                layer.msg(res.msg, {time: 2000, icon: 1}, function () {
+                                    window.location.reload();
+                                });
+                            } else {
+                                layer.msg(res.msg, {time: 2000, icon: 2});
+                            }
+                        },
+                        error: function (res){
+                            layer.msg('请求失败',{time: 2000, icon: 2});
+                        }
+                    });
+                });
+            }else if(obj.event === 'detail'){
+                form.val('detailFormFilter',data);
+                $("#imgUrl").attr("src",imgUrl);
+                layer.open({
+                    title: '详细信息',
+                    type: 1,
+                    content: $('#detailFormModal'),
+                    area: ['50%','90%'],
+                    maxmin: true
+                });
+            }
+        });
+
+
+
+    });
+
+</script>
+
+</body>
+
+</html>

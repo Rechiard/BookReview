@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html style="height: 100%">
+<meta charset="UTF-8">
+<title>书籍分布</title>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta http-equiv="Access-Control-Allow-Origin" content="*">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="format-detection" content="telephone=no">
+<link rel="stylesheet" th:href="@{/layuimini/lib/layui-v2.5.5/css/layui.css}" media="all">
+</head>
+<body style="height: 100%; margin: 0">
+<div id="container" style="height: 100%"></div>
+
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts-nightly@5.1.2-dev.20210512/dist/echarts.min.js"></script>
+
+
+<script type="text/javascript">
+    var dom = document.getElementById("container");
+    var myChart = echarts.init(dom);
+    var app = {};
+
+    var option;
+
+
+
+    var colors = ['#FFAE57', '#FF7853', '#EA5151', '#CC3F57', '#9A2555'];
+    var bgColor = '#FFFFFF';
+
+    var itemStyle = {
+        star5: {
+            color: colors[0]
+        },
+        star4: {
+            color: colors[1]
+        },
+        star3: {
+            color: colors[2]
+        },
+        star2: {
+            color: colors[3]
+        }
+    };
+
+    var data = [{
+        name: '虚构',
+        itemStyle: {
+            color: colors[1]
+        },
+        children: [{
+            name: '小说',
+            children: [{
+                name: '5☆',
+                children: [{
+                    name: '追风筝的人'
+                }, {
+                    name: '三体'
+                }, {
+                    name: '白夜行'
+                }]
+            }, {
+                name: '4☆',
+                children: [{
+                    name: '解忧杂货店'
+                }, {
+                    name: '不能承受的生命之轻'
+                }, {
+                    name: '嫌疑人X的献身'
+                }]
+            }, {
+                name: '3☆',
+                children: [{
+                    name: '达·芬奇密码'
+                }]
+            }]
+        }, {
+            name: '其他',
+            children: [{
+                name: '5☆',
+                children: [{
+                    name: '人生若只如初见'
+                }]
+            }, {
+                name: '4☆',
+                children: [{
+                    name: '失恋33天'
+                }, {
+                    name: '乖，摸摸头'
+                }]
+            }, {
+                name: '3☆',
+                children: [{
+                    name: '富爸爸，穷爸爸'
+                }]
+            }]
+        }]
+    }, {
+        name: '非虚构',
+        itemStyle: {
+            color: colors[2]
+        },
+        children: [{
+            name: '设计',
+            children: [{
+                name: '5☆',
+                children: [{
+                    name: '一个广告人的江湖'
+                }]
+            }, {
+                name: '4☆',
+                children: [{
+                    name: '红环0.18'
+                }, {
+                    name: '黑川纪章'
+                }]
+            }, {
+                name: '3☆',
+                children: [{
+                    name: 'Sun, Wind & Light'
+                }]
+            }]
+        }, {
+            name: '社科',
+            children: [{
+                name: '5☆',
+                children: [{
+                    name: '狼图腾'
+                }]
+            }, {
+                name: '4☆',
+                children: [{
+                    name: '一九八四'
+                }, {
+                    name: '藏地密码'
+                }, {
+                    name: '幸福了吗?'
+                }]
+            }, {
+                name: '3☆',
+                children: [{
+                    name: '夹边沟记事'
+                }]
+            }]
+        }, {
+            name: '心理',
+            children: [{
+                name: '5☆',
+                children: [{
+                    name: '巴别塔之犬'
+                }]
+            }, {
+                name: '4☆',
+                children: [{
+                    name: '你在天堂里遇见的五个人'
+                }, {
+                    name: '他们最幸福'
+                }]
+            }, {
+                name: '3☆'
+            }, {
+                name: '2☆',
+                children: [{
+                    name: '迷恋'
+                }]
+            }]
+        }, {
+            name: '旅行',
+            children: [{
+                name: '4☆',
+                children: [{
+                    name: '在路上'
+                }, {
+                    name: '伊斯坦布尔假期'
+                }, {
+                    name: '不伦与南美'
+                }]
+            }]
+        }, {
+            name: '绘本',
+            children: [{
+                name: '5☆',
+                children: [{
+                    name: '子不语'
+                }]
+            }, {
+                name: '4☆',
+                children: [{
+                    name: '深夜食堂'
+                }, {
+                    name: '我的路'
+                }]
+            }, {
+                name: '3☆',
+                children: [{
+                    name: '方向'
+                }]
+            }]
+        }, {
+            name: '哲学',
+            children: [{
+                name: '4☆',
+                children: [{
+                    name: '悉达多'
+                }]
+            }]
+        }, {
+            name: '技术',
+            children: [{
+                name: '5☆',
+                children: [{
+                    name: '面向模式的软件体系结构'
+                }]
+            }, {
+                name: '4☆',
+                children: [{
+                    name: '算法神探'
+                }]
+            }]
+        }]
+    }];
+
+    for (var j = 0; j < data.length; ++j) {
+        var level1 = data[j].children;
+        for (var i = 0; i < level1.length; ++i) {
+            var block = level1[i].children;
+            var bookScore = [];
+            var bookScoreId;
+            for (var star = 0; star < block.length; ++star) {
+                var style = (function (name) {
+                    switch (name) {
+                        case '5☆':
+                            bookScoreId = 0;
+                            return itemStyle.star5;
+                        case '4☆':
+                            bookScoreId = 1;
+                            return itemStyle.star4;
+                        case '3☆':
+                            bookScoreId = 2;
+                            return itemStyle.star3;
+                        case '2☆':
+                            bookScoreId = 3;
+                            return itemStyle.star2;
+                    }
+                })(block[star].name);
+
+                block[star].label = {
+                    color: style.color,
+                    downplay: {
+                        opacity: 0.5
+                    }
+                };
+
+                if (block[star].children) {
+                    style = {
+                        opacity: 1,
+                        color: style.color
+                    };
+                    block[star].children.forEach(function (book) {
+                        book.value = 1;
+                        book.itemStyle = style;
+
+                        book.label = {
+                            color: style.color
+                        };
+
+                        var value = 1;
+                        if (bookScoreId === 0 || bookScoreId === 3) {
+                            value = 5;
+                        }
+
+                        if (bookScore[bookScoreId]) {
+                            bookScore[bookScoreId].value += value;
+                        }
+                        else {
+                            bookScore[bookScoreId] = {
+                                color: colors[bookScoreId],
+                                value: value
+                            };
+                        }
+                    });
+                }
+            }
+
+            level1[i].itemStyle = {
+                color: data[j].itemStyle.color
+            };
+        }
+    }
+
+    option = {
+        backgroundColor: bgColor,
+        color: colors,
+        series: [{
+            type: 'sunburst',
+            center: ['50%', '48%'],
+            data: data,
+            sort: function (a, b) {
+                if (a.depth === 1) {
+                    return b.getValue() - a.getValue();
+                }
+                else {
+                    return a.dataIndex - b.dataIndex;
+                }
+            },
+            label: {
+                rotate: 'radial',
+                color: bgColor
+            },
+            itemStyle: {
+                borderColor: bgColor,
+                borderWidth: 2
+            },
+            levels: [{}, {
+                r0: 0,
+                r: 40,
+                label: {
+                    rotate: 0
+                }
+            }, {
+                r0: 40,
+                r: 105
+            }, {
+                r0: 115,
+                r: 140,
+                itemStyle: {
+                    shadowBlur: 2,
+                    shadowColor: colors[2],
+                    color: 'transparent'
+                },
+                label: {
+                    rotate: 'tangential',
+                    fontSize: 10,
+                    color: colors[0]
+                }
+            }, {
+                r0: 140,
+                r: 145,
+                itemStyle: {
+                    shadowBlur: 80,
+                    shadowColor: colors[0]
+                },
+                label: {
+                    position: 'outside',
+                    textShadowBlur: 5,
+                    textShadowColor: '#333'
+                },
+                downplay: {
+                    label: {
+                        opacity: 0.5
+                    }
+                }
+            }]
+        }]
+    };
+
+    if (option && typeof option === 'object') {
+        myChart.setOption(option);
+    }
+
+</script>
+</body>
+</html>

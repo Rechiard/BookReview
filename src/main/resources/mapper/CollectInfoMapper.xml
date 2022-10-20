@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjnu.system.mapper.CollectInfoMapper">
+
+    <select id="countByUserId" resultType="java.lang.Integer">
+        select count(A.id)
+        from collect_info A
+        where A.user_id = #{entity.id} and A.status = 1
+    </select>
+
+    <select id="listByUserId" resultType="com.tjnu.system.vo.CollectInfoVo">
+        select <include refid="CollectInfoVo"/>
+        from collect_info B
+        LEFT JOIN book_info A on B.book_id = A.id
+        where B.user_id = #{entity.id} and B.status = 1
+        limit #{entity.offset}, #{entity.limit}
+    </select>
+
+    <select id="selectByUserId" resultType="com.tjnu.system.vo.CollectInfoVo">
+        select A.book_id
+        from collect_info A
+        where A.user_id = #{entity.id} and A.status = 1
+    </select>
+
+    <sql id="CollectInfoVo">
+        B.id,
+        A.book_name,
+        A.author,
+        A.publishing_house,
+        A.translator,
+        A.publish_date,
+        A.pages,
+        A.ISBN,
+        A.price,
+        A.book_score,
+        A.book_sort,
+        A.rating_sum,
+        A.img_url
+    </sql>
+
+
+</mapper>

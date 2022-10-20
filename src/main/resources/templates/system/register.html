@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title></title>
+    <meta name="robots" content="noindex, follow" />
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" th:href="@{/assets/images/favicon.ico}">
+    <link rel="stylesheet" th:href="@{/assets/css/vendor/vendor.min.css}">
+    <link rel="stylesheet" th:href="@{/assets/css/plugins/plugins.min.css}">
+    <link rel="stylesheet" th:href="@{/assets/css/style.min.css}">
+
+</head>
+
+<body>
+
+
+<div th:replace="system/common/commons.html::top3bar"></div>
+
+
+    <!--=====================
+    Breadcrumb Aera Start
+    =========================-->
+    <div class="breadcrumbs_area">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="breadcrumb_content">
+                        <ul>
+                            <li>
+                                <h1><a th:href="@{toIndex}">首页</a></h1>
+                            </li>
+                            <li>注册</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--=====================
+    Breadcrumb Aera End
+    =========================-->
+
+    <!--======================
+    Register area Start
+    ==========================-->
+    <div class="register-area login-area mt-25">
+        <div class="container">
+            <div class="row">
+                <div class="offset-lg-3 col-lg-6">
+                    <div class="checkout_info mb-20">
+                        <form class="form-row layui-form">
+                            <h5 class="last-title mb-10 text-center">创建新账号</h5>
+                            <div class="col-lg-12 text-left mb-20">
+                                <p class="register-page"> 已经有一个账号？ <a th:href="@{/toLogin}">请在这里登录</a></p>
+                            </div>
+                            <div class="form_group col-12">
+                                <label class="form-label">账号 <span>*</span></label>
+                                <input class="input-form" type="text" name="username" lay-verify="required" required="required">
+                            </div>
+                            <div class="form_group col-12">
+                                <label class="form-label">邮箱 <span>*</span></label>
+                                <input class="input-form" type="email" name="email" lay-verify="required" required="required">
+                            </div>
+                            <div class="form_group col-12">
+                                <label class="form-label">用户名 <span>*</span></label>
+                                <input class="input-form" type="email" name="nickName" lay-verify="required" required="required">
+                            </div>
+							<div class="form_group col-12 position-relative">
+							    <label class="form-label">电话</label>
+							    <input class="input-form" type="text" name="phone" lay-verify="required" required="required">
+							</div>
+                            <div class="form_group col-12">
+                                <label class="form-label">密码 <span>*</span></label>
+                                <input class="input-form" type="password" name="password" lay-verify="required" required="required">
+                            </div>
+                            <div class="form_group col-12">
+                                <label class="form-label">再次输入密码 <span>*</span></label>
+                                <input class="input-form" type="password" name="password2" lay-verify="required" required="required">
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group col-12">
+                                    <div class="form-check">
+                                        <div class="custom-checkbox">
+                                            <input class="form-check-input" type="checkbox" id="agree-condition" required="required">
+                                            <span class="checkmark"></span>
+                                            <label class="form-check-label" for="agree-condition">我已阅读并同意相关服务条款和隐私政策 </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-12">
+                                    <div class="form-check">
+                                        <div class="custom-checkbox">
+                                            <input class="form-check-input" type="checkbox" id="agree-condition-2" required="required">
+                                            <span class="checkmark"></span>
+                                            <label class="form-check-label" for="agree-condition-2">注册时事通讯，现在就订阅我们的时事通讯，了解最新系列、最新产品介绍和独家优惠</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group mt-20">
+                                <button class="login-register" type="submit" style="width: 150px;" lay-submit="register" lay-filter="register">注册</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--======================
+    Register area End
+    ==========================-->
+
+<div th:replace="system/common/commons.html::lastbar"></div>
+
+
+<script th:src="@{/assets/js/vendor/vendor.min.js}"></script>
+<script th:src="@{/assets/js/plugins/plugins.min.js}"></script>
+<script th:src="@{/assets/js/main.js}"></script>
+<script th:src="@{/layuimini/lib/layui-v2.5.5/layui.js}" charset="utf-8"></script>
+
+<script>
+    layui.use(['form'],function () {
+        var $ = layui.jquery,
+            form = layui.form,
+            layer = layui.layer;
+
+        form.on('submit(register)',function (data) {
+
+            if (data.field.password != data.field.password2) {
+                layer.msg('两次输入的密码不一致', {time: 2000, icon: 2});
+                return false;
+            }
+
+            $.ajax({
+                type: 'post',
+                url: '/system/userInfo/save',
+                data: data.field,
+                dataType: 'json',
+                success: function (res){
+                    if(res.code == 200){
+                        layer.msg(res.msg,{time: 2000,icon: 1}, function (){
+                            window.location.href = '/';
+                        });
+                    }else{
+                        layer.msg(res.msg,{time: 2000,icon: 2});
+                    }
+                },
+                error: function (res){
+                    layer.msg('请求失败',{time: 2000,icon: 2});
+                }
+            });
+            return false;
+        });
+
+    });
+</script>
+</body>
+
+</html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>第一个 ECharts 实例</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <script src="https://cdn.staticfile.org/echarts/4.3.0/echarts.min.js"></script>
+</head>
+
+<body>
+<!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+<div id="main" style="width: 600px;height:400px;margin: 0 auto"></div>
+
+<script type="text/javascript">
+    var myChart = echarts.init(document.getElementById('main'));
+
+    var option;
+
+    option = {
+        title: {
+            text: '用户评分分布',
+            subtext: '',
+            left: 'center'
+        },
+        xAxis: {
+            type: 'category',
+            data: ['<8.1', '8.1-8.4','8.4-8.7','8.7-9','9-9.3','9.3-10']
+        },
+        yAxis: {
+            type: 'value',
+            data: ['人数'],
+        },
+        series: [{
+            data: [850, 735, 1217, 1451, 1162,479],
+            /*
+            select count(*) from book_info
+where book_score<=8.1
+select count(*) from book_info
+where book_score>8.1 and  book_score<=8.4
+select count(*) from book_info
+where book_score>8.4 and  book_score<=8.7
+select count(*) from book_info
+where book_score>8.7 and  book_score<=9
+select count(*) from book_info
+where book_score>9 and  book_score<=9.3
+select count(*) from book_info
+where book_score>9.3 and  book_score<=10
+             */
+            type: 'bar',
+            itemStyle: {
+                normal: {
+                    //这里是重点
+                    color: function(params) {
+                        //注意，如果颜色太少的话，后面颜色不会自动循环，最好多定义几个颜色
+                        var colorList = ['#c23531','#2f4554', '#61a0a8', '#d48265', '#91c7ae','#749f83', '#ca8622'];
+                        return colorList[params.dataIndex]
+                    }
+                }
+            },
+
+        }]
+    };
+
+    option && myChart.setOption(option);
+</script>
+</body>
+</html>
+

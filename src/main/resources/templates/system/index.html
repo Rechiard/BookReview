@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title></title>
+    <meta name="robots" content="noindex, follow" />
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" th:href="@{/assets/images/favicon.ico}">
+    <link rel="stylesheet" th:href="@{/assets/css/vendor/vendor.min.css}">
+    <link rel="stylesheet" th:href="@{/assets/css/plugins/plugins.min.css}">
+    <link rel="stylesheet" th:href="@{/assets/css/style.min.css}">
+
+</head>
+
+<body>
+
+<div th:replace="system/common/commons.html::top3bar"></div>
+
+<!--======================
+Shop area Start
+==========================-->
+<div class="shop-area">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3">
+                <aside class="sidebar-widget mt-50">
+                    <div class="shop-sidebar-category">
+                        <div class="sidebar-title">
+                            <h4 class="title-shop">书籍分类区</h4>
+                        </div>
+                        <ul class="sidebar-category-expand">
+                            <li class="menu-item-has-children active">
+                                <a th:href="@{/toBookList(bookSort=文学,page=1)}">文学(3451)</a>
+                            </li>
+                            <li class="menu-item-has-children">
+                                <a th:href="@{/toBookList(bookSort=流行,page=1)}">流行(1652)</a>
+                            </li>
+                            <li class="menu-item-has-children">
+                                <a th:href="@{/toBookList(bookSort=生活,page=1)}">生活(417)</a>
+                            </li>
+                            <li class="menu-item-has-children">
+                                <a th:href="@{/toBookList(bookSort=经管,page=1)}">经管(185)</a>
+                            </li>
+                            <li class="menu-item-has-children">
+                                <a th:href="@{/toBookList(bookSort=科技,page=1)}">科技(163)</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- Shop Banner Start -->
+                    <div class="single-banner text-center mt-50 mb-30">
+                        <a href="#"><img src="assets/images/banner/shop-banner-2.jpg" alt="" class="img-fluid"></a>
+                    </div>
+                    <!-- Shop Banner End -->
+                </aside>
+            </div>
+            <div class="col-lg-9 order-first order-lg-last">
+                <!-- Shop Banner Start -->
+                <div class="single-banner mt-50 mb-50">
+                    <a href="#"><img src="assets/images/banner/shop-banner-1.jpg" alt="" class="img-fluid"></a>
+                </div>
+                <!-- Shop Banner End -->
+
+                <!-- Shop Toolbar Start -->
+                <div class="toolbar-shop mb-50">
+                    <div class="shop_toolbar_btn">
+                        <h1 class="last-title">今日推荐</h1>
+                    </div>
+                    <div class="page-amount">
+                        <p>总计六本书籍</p>
+                    </div>
+                </div>
+                <!-- Shop Toolbar End -->
+
+                <!-- Shop Wrapper Start -->
+                <div class="row shop-wrapper grid_3">
+
+                    <div class="col-4 mb-20" th:each="bookInfo : ${bookInfos}">
+                        <!-- Single-Product-Start -->
+                        <div class="item-product pt-0">
+                            <div class="product-thumb" >
+                                <a th:href="@{/toProductDetails(id=${bookInfo.getId()})}">
+                                    <img th:src="${bookInfo.getImgUrl()}" alt="" class="img-fluid" style="height: 300px;width: 200px">
+                                </a>
+                                <div class="box-label">
+                                    <div class="label-product-new">
+                                        <span>New</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="product-caption" align="center">
+                                <div class="product-name">
+                                    <a th:href="@{/toProductDetails(id=${bookInfo.getId()})}">[[${bookInfo.getBookName()}]]</a>
+                                </div>
+                                <div class="rating">
+                                    <span class="yellow"><i class="fa fa-star"></i></span>
+                                    <span class="yellow"><i class="fa fa-star"></i></span>
+                                    <span class="yellow"><i class="fa fa-star"></i></span>
+                                    <span class="yellow"><i class="fa fa-star"></i></span>
+                                    <span class="yellow"><i class="fa fa-star"></i></span>
+                                </div>
+                                <div class="price-box">
+                                    <span class="regular-price">[[${bookInfo.getAuthor()}]]</span>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Single-Product-End -->
+                    </div>
+
+                </div>
+                <!-- Shop Wrapper End -->
+            </div>
+        </div>
+    </div>
+</div>
+<!--======================
+Shop area End
+==========================-->
+
+
+<div th:replace="system/common/commons.html::lastbar"></div>
+
+<script th:src="@{/assets/js/vendor/vendor.min.js}"></script>
+<script th:src="@{/assets/js/plugins/plugins.min.js}"></script>
+<script th:src="@{/assets/js/main.js}"></script>
+<script th:src="@{/layuimini/lib/layui-v2.5.5/layui.js}" charset="utf-8"></script>
+
+</body>
+
+</html>

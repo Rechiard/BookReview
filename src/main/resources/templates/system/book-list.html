@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title></title>
+    <meta name="robots" content="noindex, follow" />
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" th:href="@{/assets/images/favicon.ico}">
+    <link rel="stylesheet" th:href="@{/assets/css/vendor/vendor.min.css}">
+    <link rel="stylesheet" th:href="@{/assets/css/plugins/plugins.min.css}">
+    <link rel="stylesheet" th:href="@{/assets/css/style.min.css}">
+
+</head>
+
+<body>
+
+<div th:replace="system/common/commons.html::top3bar"></div>
+
+<!--=====================
+Breadcrumb Aera Start
+=========================-->
+<div class="breadcrumbs_area">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="breadcrumb_content">
+                    <ul>
+                        <li>
+                            <h1><a th:href="@{/toIndex}">首页</a></h1>
+                        </li>
+                        <li>[[${bookType}]]</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--=====================
+Breadcrumb Aera End
+=========================-->
+
+    <!--======================
+    Shop Fullwidth area Start
+    ==========================-->
+    <div class="shop-fullwidth-area mt-50">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <!-- Shop Toolbar Start -->
+                    <div class="toolbar-shop mb-50">
+                        <div class="shop_toolbar_btn">
+                            <button data-role="grid_list" class="btn-list active"></button>
+                        </div>
+                    </div>
+                    <!-- Shop Toolbar End -->
+                    <!-- Shop Wrapper Start -->
+                    <div class="row shop-wrapper grid_list">
+                        <div class="col-12 mb-20" th:each="bookInfo: ${bookInfos}">
+                            <!-- Single-Product-Start -->
+                            <div class="item-product pt-0">
+                                <div class="product-thumb">
+                                    <a th:href="@{/toProductDetails(id=${bookInfo.getId()})}">
+                                        <img th:src="${bookInfo.getImgUrl()}" alt="" class="img-fluid" style="height: 300px;width: 200px">
+                                    </a>
+                                    <div class="action-link">
+                                        <a class="quick-view same-link" href="#" title="Quick view" data-toggle="modal" data-target="#modal_box" data-original-title="quick view"><i class="zmdi zmdi-eye zmdi-hc-fw"></i></a>
+                                        <a class="compare-add same-link" href="compare.html" title="Add to compare"><i class="zmdi zmdi-refresh-alt"></i></a>
+                                        <a class="wishlist-add same-link" href="wishlist.html" title="Add to wishlist"><i class="zmdi zmdi-favorite-outline zmdi-hc-fw"></i></a>
+                                    </div>
+                                </div>
+                                <div class="product-caption">
+                                    <div class="product-name">
+                                        <a th:href="@{/toProductDetails(id=${bookInfo.getId()})}">[[${bookInfo.getBookName()}]]</a>
+                                    </div>
+                                    <div class="rating">
+                                        <span class="yellow"><i class="fa fa-star"></i></span>
+                                        <span class="yellow"><i class="fa fa-star"></i></span>
+                                        <span class="yellow"><i class="fa fa-star"></i></span>
+                                        <span class="yellow"><i class="fa fa-star"></i></span>
+                                        <span class="yellow"><i class="fa fa-star"></i></span>
+                                    </div>
+                                    <div class="price-box">
+                                        <span class="regular-price">[[${bookInfo.getAuthor()}]]</span>
+                                    </div>
+                                </div>
+                                <div class="grid-list-caption align-items-center">
+                                    <div class="product-name">
+                                        <a th:href="@{/toProductDetails(id=${bookInfo.getId()})}">[[${bookInfo.getBookName()}]]</a>
+                                    </div>
+                                    <div class="rating">
+                                        <span class="yellow"><i class="fa fa-star"></i></span>
+                                        <span class="yellow"><i class="fa fa-star"></i></span>
+                                        <span class="yellow"><i class="fa fa-star"></i></span>
+                                        <span class="yellow"><i class="fa fa-star"></i></span>
+                                        <span class="yellow"><i class="fa fa-star"></i></span>
+                                        <span style="margin-left: 10px">[[${bookInfo.getBookScore()}]]</span>
+                                        <span style="margin-left: 10px">([[${bookInfo.getRatingSum()}]]人评论)</span>
+                                    </div>
+                                    <div class="price-box">
+                                        <span class="regular-price">[[${bookInfo.getAuthor()}]]</span>/
+                                        <span class="regular-price">[[${bookInfo.getPublishingHouse()}]]</span>/
+                                        <span class="regular-price">[[${bookInfo.getPublishDate()}]]</span>/
+                                        <span class="regular-price">[[${bookInfo.getPrice()}]]</span>
+                                    </div>
+                                    <a th:href="@{/toProductDetails(id=${bookInfo.getId()})}"><p>[[${bookInfo.getBriefIntroduction()}]]</p></a>
+                                </div>
+                            </div>
+                            <!-- Single-Product-End -->
+                        </div>
+                    </div>
+                    <!-- Shop Wrapper End -->
+                    <!-- Shop Toolbar Start -->
+                    <div class="toolbar-shop toolbar-bottom">
+                        <div class="page-amount">
+                            <p>Showing 1-10 of 30 results</p>
+                        </div>
+                        <div class="pagination">
+                            <ul>
+                                <li><a th:href="@{/toBookList(bookSort=${bookType},page=1)}">1</a></li>
+                                <li><a th:href="@{/toBookList(bookSort=${bookType},page=2)}">2</a></li>
+                                <li><a th:href="@{/toBookList(bookSort=${bookType},page=3)}">3</a></li>
+                                <li><a th:href="@{/toBookList(bookSort=${bookType},page=4)}">4</a></li>
+                                <li><a th:href="@{/toBookList(bookSort=${bookType},page=5)}">5</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- Shop Toolbar End -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--======================
+    Shop Fullwidth area End
+    ==========================-->
+
+
+<footer th:replace="system/common/commons.html::lastbar"></footer>
+
+<script th:src="@{/assets/js/vendor/vendor.min.js}"></script>
+<script th:src="@{/assets/js/plugins/plugins.min.js}"></script>
+<script th:src="@{/assets/js/main.js}"></script>
+<script th:src="@{/layuimini/lib/layui-v2.5.5/layui.js}" charset="utf-8"></script>
+
+<script>
+
+
+</script>
+
+</body>
+
+</html>

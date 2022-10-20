@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>第一个 ECharts 实例</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <!-- 引入 echarts.js -->
+    <script src="https://cdn.staticfile.org/echarts/4.3.0/echarts.min.js"></script>
+</head>
+<body>
+<!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+<div id="main" style="width: 600px;height:400px;margin: 0 auto"></div>
+
+<script type="text/javascript">
+    // 基于准备好的dom，初始化echarts实例
+    var myChart = echarts.init(document.getElementById('main'));
+
+    var option;
+
+    option = {
+        title: {
+            text: '书籍销量区域图'
+        },
+        tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+                type: 'cross',
+                label: {
+                    backgroundColor: '#6a7985'
+                }
+            }
+        },
+        legend: {
+            data: ['文学', '流行', '生活', '科技', '经管']
+        },
+        toolbox: {
+            feature: {
+                saveAsImage: {}
+            }
+        },
+        grid: {
+            left: '3%',
+            right: '4%',
+            bottom: '3%',
+            containLabel: true
+        },
+        xAxis: [
+            {
+                type: 'category',
+                boundaryGap: false,
+                data: ['-1980', '1980-1990', '1990-2000', '2000-2010', '2010-2020',]
+            }
+        ],
+        yAxis: [
+            {
+                type: 'value'
+            }
+        ],
+        series: [
+            {
+                name: '文学',
+                type: 'line',
+                stack: '总量',
+                areaStyle: {},
+                emphasis: {
+                    focus: 'series'
+                },
+                data: [14015, 82763, 195474, 922892, 918633]
+                /*
+                select sum(rating_sum) from book_info_year where publish_data<=1980 and book_sort = '文学'
+                select sum(rating_sum) from book_info_year where publish_data>1980 and publish_data<=1990 and book_sort='文学'
+                select sum(rating_sum) from book_info_year where publish_data>1990 and publish_data<=2000 and book_sort='文学'
+                select sum(rating_sum) from book_info_year where publish_data>2000 and publish_data<=2010 and book_sort='文学'
+                select sum(rating_sum) from book_info_year where publish_data>2010 and publish_data<=2020 and book_sort='文学'
+
+                 */
+            },
+            {
+                name: '流行',
+                type: 'line',
+                stack: '总量',
+                areaStyle: {},
+                emphasis: {
+                    focus: 'series'
+                },
+                data: [3186, 12227, 55920, 145404, 377192]
+                /*
+                select sum(rating_sum) from book_info_year
+where publish_data<=1980 and book_sort = '流行'
+select sum(rating_sum) from book_info_year
+where publish_data>1980 and publish_data<=1990 and book_sort='流行'
+select sum(rating_sum) from book_info_year
+where publish_data>1990 and publish_data<=2000 and book_sort='流行'
+select sum(rating_sum) from book_info_year
+where publish_data>2000 and publish_data<=2010 and book_sort='流行'
+select sum(rating_sum) from book_info_year
+where publish_data>2010 and publish_data<=2020 and book_sort='流行'
+                 */
+
+            },
+            {
+                name: '生活',
+                type: 'line',
+                stack: '总量',
+                areaStyle: {},
+                emphasis: {
+                    focus: 'series'
+                },
+                data: [58325, 14618, 9460, 58806, 36690]
+                /*
+                select sum(rating_sum) from book_info_year
+where publish_data<=1980 and book_sort = '生活'
+select sum(rating_sum) from book_info_year
+where publish_data>1980 and publish_data<=1990 and book_sort='生活'
+select sum(rating_sum) from book_info_year
+where publish_data>1990 and publish_data<=2000 and book_sort='生活'
+select sum(rating_sum) from book_info_year
+where publish_data>2000 and publish_data<=2010 and book_sort='生活'
+select sum(rating_sum) from book_info_year
+where publish_data>2010 and publish_data<=2020 and book_sort='生活'
+                 */
+            },
+            {
+                name: '科技',
+                type: 'line',
+                stack: '总量',
+                areaStyle: {},
+                emphasis: {
+                    focus: 'series'
+                },
+                data: [51, 4, 418, 824, 1226]
+                /*
+                select sum(rating_sum) from book_info_year
+where publish_data<=1980 and book_sort = '科技'
+select sum(rating_sum) from book_info_year
+where publish_data>1980 and publish_data<=1990 and book_sort='科技'
+select sum(rating_sum) from book_info_year
+where publish_data>1990 and publish_data<=2000 and book_sort='科技'
+select sum(rating_sum) from book_info_year
+where publish_data>2000 and publish_data<=2010 and book_sort='科技'
+select sum(rating_sum) from book_info_year
+where publish_data>2010 and publish_data<=2020 and book_sort='科技'
+                 */
+            },
+            {
+                name: '经管',
+                type: 'line',
+                stack: '总量',
+                label: {
+                    show: true,
+                    position: 'top'
+                },
+                areaStyle: {},
+                emphasis: {
+                    focus: 'series'
+                },
+                data: [12, 8, 3638, 2546, 21109]
+                /*
+                select sum(rating_sum) from book_info_year
+where publish_data<=1980 and book_sort = '经管'
+select sum(rating_sum) from book_info_year
+where publish_data>1980 and publish_data<=1990 and book_sort='经管'
+select sum(rating_sum) from book_info_year
+where publish_data>1990 and publish_data<=2000 and book_sort='经管'
+select sum(rating_sum) from book_info_year
+where publish_data>2000 and publish_data<=2010 and book_sort='经管'
+select sum(rating_sum) from book_info_year
+where publish_data>2010 and publish_data<=2020 and book_sort='经管'
+                 */
+            }
+        ]
+    };
+
+    option && myChart.setOption(option);
+
+
+    // 使用刚指定的配置项和数据显示图表。
+    //   myChart.setOption(option);
+</script>
+</body>
+</html>
+
+
